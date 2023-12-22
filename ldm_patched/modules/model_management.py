@@ -375,7 +375,6 @@ def load_models_gpu(models, memory_required=0):
         else:
             if hasattr(x, "model"):
                 print(f"Requested to load {x.model.__class__.__name__}")
-                print(x.model)
             models_to_load.append(loaded_model)
 
     if len(models_to_load) == 0:
@@ -385,6 +384,16 @@ def load_models_gpu(models, memory_required=0):
                 free_memory(extra_mem, d, models_already_loaded)
         return
     print(f"Loading {len(models_to_load)} new model{'s' if len(models_to_load) > 1 else ''}")
+
+
+    if (len(models_to_load) > 0):
+        to_unload = []
+        for i in range(len(current_loaded_models)):
+            if model.is_clone(current_loaded_models[i].model):
+                to_unload = [i] + to_unload
+        if (len(to_unload) > 0):
+            print(f"Unloading {len(to_unload)} clone{'s' if len(to_unload) > 1 else ''}")
+            return
 
     total_memory_required = {}
     for loaded_model in models_to_load:
