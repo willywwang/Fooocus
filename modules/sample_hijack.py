@@ -128,21 +128,21 @@ def sample_hacked(model, noise, positive, negative, cfg, device, sampler, sigmas
         negative_refiner = encode_model_conds(current_refiner.model.extra_conds, negative_refiner, noise, device, "negative", latent_image=latent_image, denoise_mask=denoise_mask)
 
     def refiner_switch():
-        # cleanup_additional_models(set(get_models_from_cond(positive, "control") + get_models_from_cond(negative, "control")))
+        cleanup_additional_models(set(get_models_from_cond(positive, "control") + get_models_from_cond(negative, "control")))
 
-        # extra_args["cond"] = positive_refiner
-        # extra_args["uncond"] = negative_refiner
+        extra_args["cond"] = positive_refiner
+        extra_args["uncond"] = negative_refiner
 
-        # # clear ip-adapter for refiner
-        # extra_args['model_options'] = {k: {} if k == 'transformer_options' else v for k, v in extra_args['model_options'].items()}
+        # clear ip-adapter for refiner
+        extra_args['model_options'] = {k: {} if k == 'transformer_options' else v for k, v in extra_args['model_options'].items()}
 
-        # models, inference_memory = get_additional_models(positive_refiner, negative_refiner, current_refiner.model_dtype())
-        # ldm_patched.modules.model_management.load_models_gpu(
-        #     [current_refiner] + models,
-        #     model.memory_required([noise.shape[0] * 2] + list(noise.shape[1:])) + inference_memory)
+        models, inference_memory = get_additional_models(positive_refiner, negative_refiner, current_refiner.model_dtype())
+        ldm_patched.modules.model_management.load_models_gpu(
+            [current_refiner] + models,
+            model.memory_required([noise.shape[0] * 2] + list(noise.shape[1:])) + inference_memory)
 
-        # model_wrap.inner_model = current_refiner.model
-        print('Refiner Swapped')
+        model_wrap.inner_model = current_refiner.model
+        print('Refiner Swapped', current_refiner.model)
         return
 
     def callback_wrap(step, x0, x, total_steps):
