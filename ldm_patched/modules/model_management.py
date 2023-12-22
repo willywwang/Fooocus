@@ -371,7 +371,11 @@ def load_models_gpu(models, memory_required=0):
         else:
             if hasattr(x, "model"):
                 print(f"Requested to load {x.model.__class__.__name__}")
-            models_to_load.append(loaded_model)
+                if: x.model.__class__.__name__ != "SDXL":
+                    print("Loading model in lowvram mode")
+                    models_to_load.append(loaded_model)
+            else:
+                models_to_load.append(loaded_model)
 
     if len(models_to_load) == 0:
         devs = set(map(lambda a: a.device, models_already_loaded))
