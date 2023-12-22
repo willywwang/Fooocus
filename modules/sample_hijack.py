@@ -136,12 +136,12 @@ def sample_hacked(model, noise, positive, negative, cfg, device, sampler, sigmas
         # clear ip-adapter for refiner
         extra_args['model_options'] = {k: {} if k == 'transformer_options' else v for k, v in extra_args['model_options'].items()}
 
-        # models, inference_memory = get_additional_models(positive_refiner, negative_refiner, current_refiner.model_dtype())
-        # ldm_patched.modules.model_management.load_models_gpu(
-        #     [current_refiner] + models,
-        #     model.memory_required([noise.shape[0] * 2] + list(noise.shape[1:])) + inference_memory)
+        models, inference_memory = get_additional_models(positive_refiner, negative_refiner, current_refiner.model_dtype())
+        ldm_patched.modules.model_management.load_models_gpu(
+            [current_refiner] + models,
+            model.memory_required([noise.shape[0] * 2] + list(noise.shape[1:])) + inference_memory)
 
-        # model_wrap.inner_model = current_refiner.model
+        model_wrap.inner_model = current_refiner.model
         print('Refiner Swapped')
         return
 
