@@ -142,7 +142,7 @@ def sample_hacked(model, noise, positive, negative, cfg, device, sampler, sigmas
         #     model.memory_required([noise.shape[0] * 2] + list(noise.shape[1:])) + inference_memory)
 
         # model_wrap.inner_model = current_refiner.model
-        print('Refiner Swapped',l)
+        print('Refiner Swapped')
         return
 
     def callback_wrap(step, x0, x, total_steps):
