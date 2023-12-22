@@ -363,7 +363,7 @@ def load_models_gpu(models, memory_required=0):
     models_already_loaded = []
 
 
-    earlyReturn = false
+    earlyReturn = False
 
     for x in models:
         loaded_model = LoadedModel(x)
