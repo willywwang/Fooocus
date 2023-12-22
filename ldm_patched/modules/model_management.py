@@ -371,11 +371,7 @@ def load_models_gpu(models, memory_required=0):
         else:
             if hasattr(x, "model"):
                 print(f"Requested to load {x.model.__class__.__name__}")
-                if x.model.__class__.__name__ != "SDXL":
-                    print("Loading model in lowvram mode")
-                    models_to_load.append(loaded_model)
-            else:
-                models_to_load.append(loaded_model)
+            models_to_load.append(loaded_model)
 
     if len(models_to_load) == 0:
         devs = set(map(lambda a: a.device, models_already_loaded))
@@ -383,8 +379,6 @@ def load_models_gpu(models, memory_required=0):
             if d != torch.device("cpu"):
                 free_memory(extra_mem, d, models_already_loaded)
         return
-
-    print(models_to_load)
     print(f"Loading {len(models_to_load)} new model{'s' if len(models_to_load) > 1 else ''}")
 
     total_memory_required = {}
