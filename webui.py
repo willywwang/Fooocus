@@ -294,7 +294,7 @@ with shared.gradio_root:
                         base_model = gr.Dropdown(label='Base Model (SDXL only)', choices=modules.config.model_filenames, value=modules.config.default_base_model_name, show_label=True)
                         refiner_model = gr.Dropdown(label='Refiner (SDXL or SD 1.5)', choices=['None'] + modules.config.model_filenames, value=modules.config.default_refiner_model_name, show_label=True)
 
-                    refiner_switch = gr.Slider(label='Refiner Switch At', minimum=0.1, maximum=1.0, step=0.0001,
+                    refiner_switch = gr.Slider(label='Refiner Switch At', minimum=0.1, maximum=1.1, step=0.0001,
                                                info='Use 0.4 for SD1.5 realistic models; '
                                                     'or 0.667 for SD1.5 anime models; '
                                                     'or 0.8 for XL-refiners; '
