@@ -371,7 +371,7 @@ def load_models_gpu(models, memory_required=0):
         else:
             if hasattr(x, "model"):
                 print(f"Requested to load {x.model.__class__.__name__}")
-                if: x.model.__class__.__name__ != "SDXL":
+                if x.model.__class__.__name__ != "SDXL":
                     print("Loading model in lowvram mode")
                     models_to_load.append(loaded_model)
             else:
